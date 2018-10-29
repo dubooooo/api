@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>知乎API</title>
+</head>
+<body>
+<div id="wiki-content" class="d-flex flex-column flex-md-row">
+    <div id="wiki-body" class="mt-4 flex-auto min-width-0 gollum-markdown-content instapaper_body">
+        <div class="markdown-body">
+            <h1>
+                <a id="user-content-声明" class="anchor" href="#%E5%A3%B0%E6%98%8E" aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>声明
+            </h1>
+            <p>以下所有 API 均由 <strong>知乎（Zhihu.Inc）</strong> 提供，本人（Xiao
+                Liang）采取非正常手段获取。获取与共享之行为或有侵犯知乎权益的嫌疑。若被告知需停止共享与使用，本人会及时删除此页面与整个项目。<br>
+                请您暸解相关情况，并遵守知乎协议。</p>
+            <h1>
+                <a id="user-content-api-说明" class="anchor" href="#api-%E8%AF%B4%E6%98%8E" aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>API 说明
+            </h1>
+            <ul>
+                <li>
+                    <p>知乎日报的消息以 JSON 格式输出</p>
+                </li>
+                <li>
+                    <p>网址中 <code>api</code> 后数字代表 API 版本，过高或过低均会得到错误信息</p>
+                </li>
+                <li>
+                    <p>较老的接口（启动界面图像获取，最新消息，过往消息）中将数字 2 替换为 1.2 获得效果相同，替换为 1.1 获得的是老版本 API 输出的 JSON 格式（替换为更低，如 1.0，或更高，如
+                        1.3，将会获得错误消息）</p>
+                </li>
+                <li>
+                    <p>以下所有 API 使用的 HTTP Method 均为 <code>GET</code></p>
+                </li>
+            </ul>
+            <h1>
+                <a id="user-content-api-分析" class="anchor" href="#api-%E5%88%86%E6%9E%90" aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>API 分析
+            </h1>
+            <h3>
+                <a id="user-content-1-启动界面图像获取" class="anchor"
+                   href="#1-%E5%90%AF%E5%8A%A8%E7%95%8C%E9%9D%A2%E5%9B%BE%E5%83%8F%E8%8E%B7%E5%8F%96"
+                   aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>1. 启动界面图像获取
+            </h3>
+            <ul>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/4/start-image/1080*1776</code></p>
+                </li>
+                <li>
+                    <p><code>start-image</code> 后为图像分辨率，接受如下格式</p>
+                    <ul>
+                        <li><code>320*432</code></li>
+                        <li><code>480*728</code></li>
+                        <li><code>720*1184</code></li>
+                        <li><code>1080*1776</code></li>
+                    </ul>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      text: "© Fido Dido",
+      img: "http://p2.zhimg.com/10/7b/107bb4894b46d75a892da6fa80ef504a.jpg"
+  }
+</code></pre>
+                </li>
+                <li>
+                    <p>分析：</p>
+                    <ul>
+                        <li>
+                            <code>text</code> : 供显示的图片版权信息
+                        </li>
+                        <li>
+                            <code>img</code> : 图像的 URL
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-2-软件版本查询" class="anchor"
+                   href="#2-%E8%BD%AF%E4%BB%B6%E7%89%88%E6%9C%AC%E6%9F%A5%E8%AF%A2" aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>2. 软件版本查询
+            </h3>
+            <ul>
+                <li>
+                    <p>Android: <code>http://news-at.zhihu.com/api/4/version/android/2.3.0</code></p>
+                </li>
+                <li>
+                    <p>iOS: <code>http://news-at.zhihu.com/api/4/version/ios/2.3.0</code></p>
+                </li>
+                <li>
+                    <p>URL 最后部分的数字代表所安装『知乎日报』的版本</p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <p>软件为最新版本时</p>
+                    <pre><code>  {
+      "status": 0,
+      "latest": "2.2.0"
+  }
+</code></pre>
+                    <p>软件为较老版本时</p>
+                    <pre><code>  {
+      "status": 1,
+      "msg": "【更新内容】（后略）",
+      "latest": "2.2.0"
+  }
+</code></pre>
+                </li>
+                <li>
+                    <p>分析：</p>
+                    <ul>
+                        <li>
+                            <code>status</code> : 0 代表软件为最新版本，1 代表软件需要升级
+                        </li>
+                        <li>
+                            <code>latest</code> : 软件最新版本的版本号（数字的第二段会比最新的版本号低 1）
+                        </li>
+                        <li>
+                            <code>msg</code> : 仅出现在软件需要升级的情形下，提示用户升级软件的对话框中显示的消息
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-3-最新消息" class="anchor" href="#3-%E6%9C%80%E6%96%B0%E6%B6%88%E6%81%AF"
+                   aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>3. 最新消息
+            </h3>
+            <ul>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/4/news/latest</code></p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      date: "20140523",
+      stories: [
+          {
+              title: "中国古代家具发展到今天有两个高峰，一个两宋一个明末（多图）",
+              ga_prefix: "052321",
+              images: [
+                  "http://p1.zhimg.com/45/b9/45b9f057fc1957ed2c946814342c0f02.jpg"
+              ],
+              type: 0,
+              id: 3930445
+          },
+      ...
+      ],
+      top_stories: [
+          {
+              title: "商场和很多人家里，竹制家具越来越多（多图）",
+              image: "http://p2.zhimg.com/9a/15/9a1570bb9e5fa53ae9fb9269a56ee019.jpg",
+              ga_prefix: "052315",
+              type: 0,
+              id: 3930883
+          },
+      ...
+      ]
+  }
+</code></pre>
+                </li>
+                <li>
+                    <p>分析：</p>
+                    <ul>
+                        <li>
+                            <code>date</code> : 日期
+                        </li>
+                        <li>
+                            <code>stories</code> : 当日新闻
+                            <ul>
+                                <li>
+                                    <code>title</code> : 新闻标题
+                                </li>
+                                <li>
+                                    <code>images</code> : 图像地址（官方 API 使用数组形式。目前暂未有使用多张图片的情形出现，<strong>曾见无</strong>
+                                    <code>images</code> <strong>属性的情况</strong>，请在使用中注意 ）
+                                </li>
+                                <li>
+                                    <code>ga_prefix</code> : 供 Google Analytics 使用
+                                </li>
+                                <li>
+                                    <code>type</code> : 作用未知
+                                </li>
+                                <li>
+                                    <code>id</code> : <code>url</code> 与 <code>share_url</code> 中最后的数字（应为内容的 id）
+                                </li>
+                                <li>
+                                    <code>multipic</code> : 消息是否包含多张图片（仅出现在包含多图的新闻中）
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <code>top_stories</code> : 界面顶部 ViewPager 滚动显示的显示内容（子项格式同上）
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-4-消息内容获取与离线下载" class="anchor"
+                   href="#4-%E6%B6%88%E6%81%AF%E5%86%85%E5%AE%B9%E8%8E%B7%E5%8F%96%E4%B8%8E%E7%A6%BB%E7%BA%BF%E4%B8%8B%E8%BD%BD"
+                   aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>4. 消息内容获取与离线下载
+            </h3>
+            <ul>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/4/news/3892357</code></p>
+                </li>
+                <li>
+                    <p>使用在 <code>最新消息</code> 中获得的 <code>id</code>，拼接在 <code>http://news-at.zhihu.com/api/4/news/</code>
+                        后，得到对应消息 JSON 格式的内容</p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      body: "&lt;div class="main-wrap content-wrap"&gt;...&lt;/div&gt;",
+      image_source: "Yestone.com 版权图片库",
+      title: "深夜惊奇 · 朋友圈错觉",
+      image: "http://pic3.zhimg.com/2d41a1d1ebf37fb699795e78db76b5c2.jpg",
+      share_url: "http://daily.zhihu.com/story/4772126",
+      js: [ ],
+      recommenders": [
+          { "avatar": "http://pic2.zhimg.com/fcb7039c1_m.jpg" },
+          { "avatar": "http://pic1.zhimg.com/29191527c_m.jpg" },
+          { "avatar": "http://pic4.zhimg.com/e6637a38d22475432c76e6c9e46336fb_m.jpg" },
+          { "avatar": "http://pic1.zhimg.com/bd751e76463e94aa10c7ed2529738314_m.jpg" },
+          { "avatar": "http://pic1.zhimg.com/4766e0648_m.jpg" }
+      ],
+      ga_prefix: "050615",
+      section": {
+          "thumbnail": "http://pic4.zhimg.com/6a1ddebda9e8899811c4c169b92c35b3.jpg",
+          "id": 1,
+          "name": "深夜惊奇"
+      },
+      type: 0,
+      id: 4772126,
+      css: [
+          "http://news.at.zhihu.com/css/news_qa.auto.css?v=1edab"
+      ]
+  }
+</code></pre>
+                </li>
+                <li>
+                    <p>分析：</p>
+                    <ul>
+                        <li>
+                            <code>body</code> : HTML 格式的新闻
+                        </li>
+                        <li>
+                            <code>image-source</code> : 图片的内容提供方。为了避免被起诉非法使用图片，在显示图片时最好附上其版权信息。
+                        </li>
+                        <li>
+                            <code>title</code> : 新闻标题
+                        </li>
+                        <li>
+                            <code>image</code> : 获得的图片同 <code>最新消息</code> 获得的图片分辨率不同。这里获得的是在文章浏览界面中使用的大图。
+                        </li>
+                        <li>
+                            <code>share_url</code> : 供在线查看内容与分享至 SNS 用的 URL
+                        </li>
+                        <li>
+                            <code>js</code> : 供手机端的 WebView(UIWebView) 使用
+                        </li>
+                        <li>
+                            <code>recommenders</code> : 这篇文章的推荐者
+                        </li>
+                        <li>
+                            <code>ga_prefix</code> : 供 Google Analytics 使用
+                        </li>
+                        <li>
+                            <code>section</code> : 栏目的信息
+                            <ul>
+                                <li>
+                                    <code>thumbnail</code> : 栏目的缩略图
+                                </li>
+                                <li>
+                                    <code>id</code> : 该栏目的 <code>id</code>
+                                </li>
+                                <li>
+                                    <code>name</code> : 该栏目的名称
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <code>type</code> : 新闻的类型
+                        </li>
+                        <li>
+                            <code>id</code> : 新闻的 id
+                        </li>
+                        <li>
+                            <code>css</code> : 供手机端的 WebView(UIWebView) 使用
+                            <ul>
+                                <li>可知，知乎日报的文章浏览界面利用 WebView(UIWebView) 实现</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <p><strong>特别注意</strong><br>
+                        在较为特殊的情况下，知乎日报可能将某个主题日报的站外文章推送至知乎日报首页。<br>
+                        响应实例：</p>
+                    <pre><code>  {
+      "theme_name": "电影日报",
+      "title": "五分钟读懂明星的花样昵称：一美、法鲨……",
+      "share_url": "http://daily.zhihu.com/story/3942319",
+      "js": [],
+      "ga_prefix": "052921",
+      "editor_name": "邹波",
+      "theme_id": 3,
+      "type": 1,
+      "id": 3942319,
+      "css": [
+          "http://news.at.zhihu.com/css/news_qa.6.css?v=b390f"
+      ]
+  }
+</code></pre>
+                    <p>此时返回的 JSON 数据缺少 <code>body</code>，<code>image-source</code>，<code>image</code>，<code>js</code>
+                        属性。多出 <code>theme_name</code>，<code>editor_name</code>，<code>theme_id</code>
+                        三个属性。<code>type</code> 由 <code>0</code> 变为 <code>1</code>。</p>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-5-过往消息" class="anchor" href="#5-%E8%BF%87%E5%BE%80%E6%B6%88%E6%81%AF"
+                   aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>5. 过往消息
+            </h3>
+            <ul>
+                <li>
+                    <p>URL: <code>http://news.at.zhihu.com/api/4/news/before/20131119</code></p>
+                </li>
+                <li>
+                    <p><strong>若果需要查询 11 月 18 日的消息，</strong><code>before</code> <strong>后的数字应为</strong>
+                        <code>20131119</code></p>
+                </li>
+                <li>
+                    <p><strong>知乎日报的生日为 2013 年 5 月 19 日，若</strong> <code>before</code> <strong>后数字小于</strong> <code>20130520</code>
+                        <strong>，只会接收到空消息</strong></p>
+                </li>
+                <li>
+                    <p>输入的今日之后的日期仍然获得今日内容，但是格式不同于最新消息的 JSON 格式</p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      date: "20131118",
+      stories: [
+          {
+              title: "深夜食堂 · 我的张曼妮",
+              ga_prefix: "111822",
+              images: [
+                  "http://p4.zhimg.com/7b/c8/7bc8ef5947b069513c51e4b9521b5c82.jpg"
+              ],
+              type: 0,
+              id: 1747159
+          },
+      ...
+      ]
+  }
+</code></pre>
+                </li>
+                <li>
+                    <p>格式与前同，恕不再赘述</p>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-6-新闻额外信息" class="anchor"
+                   href="#6-%E6%96%B0%E9%97%BB%E9%A2%9D%E5%A4%96%E4%BF%A1%E6%81%AF" aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>6. 新闻额外信息
+            </h3>
+            <ul>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/4/story-extra/#{id}</code></p>
+                </li>
+                <li>
+                    <p>输入新闻的ID，获取对应新闻的额外信息，如评论数量，所获的『赞』的数量。</p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      "long_comments": 0,
+      "popularity": 161,
+      "short_comments": 19,
+      "comments": 19,
+  }
+</code></pre>
+                </li>
+                <li>
+                    <p>分析：</p>
+                    <ul>
+                        <li>
+                            <code>long_comments</code> : 长评论总数
+                        </li>
+                        <li>
+                            <code>popularity</code> : 点赞总数
+                        </li>
+                        <li>
+                            <code>short_comments</code> : 短评论总数
+                        </li>
+                        <li>
+                            <code>comments</code> : 评论总数
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-7-新闻对应长评论查看" class="anchor"
+                   href="#7-%E6%96%B0%E9%97%BB%E5%AF%B9%E5%BA%94%E9%95%BF%E8%AF%84%E8%AE%BA%E6%9F%A5%E7%9C%8B"
+                   aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>7. 新闻对应长评论查看
+            </h3>
+            <ul>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/4/story/4232852/long-comments</code></p>
+                </li>
+                <li>
+                    <p>使用在 <code>最新消息</code> 中获得的 <code>id</code>，在 <code>http://news-at.zhihu.com/api/4/story/#{id}/long-comments</code>
+                        中将 <code>id</code> 替换为对应的 <code>id</code>，得到长评论 JSON 格式的内容</p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      "comments": [
+          {
+              "author": "EleganceWorld",
+              "id": 545442,
+              "content": "上海到济南，无尽的猪排盖饭… （后略）",
+              "likes": 0,
+              "time": 1413589303,
+              "avatar": "http://pic2.zhimg.com/1f76e6a25_im.jpg"
+          },
+          ...
+      ]
+  }
+</code></pre>
+                </li>
+                <li>
+                    <p>分析：</p>
+                    <ul>
+                        <li>
+                            <code>comments</code> : 长评论列表，形式为数组（请注意，其长度可能为 0）
+                            <ul>
+                                <li>
+                                    <code>author</code> : 评论作者
+                                </li>
+                                <li>
+                                    <code>id</code> : 评论者的唯一标识符
+                                </li>
+                                <li>
+                                    <code>content</code> : 评论的内容
+                                </li>
+                                <li>
+                                    <code>likes</code> : 评论所获『赞』的数量
+                                </li>
+                                <li>
+                                    <code>time</code> : 评论时间
+                                </li>
+                                <li>
+                                    <code>avatar</code> : 用户头像图片的地址
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-8-新闻对应短评论查看" class="anchor"
+                   href="#8-%E6%96%B0%E9%97%BB%E5%AF%B9%E5%BA%94%E7%9F%AD%E8%AF%84%E8%AE%BA%E6%9F%A5%E7%9C%8B"
+                   aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>8. 新闻对应短评论查看
+            </h3>
+            <ul>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/4/story/4232852/short-comments</code></p>
+                </li>
+                <li>
+                    <p>使用在 <code>最新消息</code> 中获得的 <code>id</code>，在 <code>http://news-at.zhihu.com/api/4/story/#{id}/short-comments</code>
+                        中将 <code>id</code> 替换为对应的 <code>id</code>，得到短评论 JSON 格式的内容</p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      "comments": [
+          {
+              "author": "Xiaole说",
+              "id": 545721,
+              "content": "就吃了个花生米，呵呵",
+              "likes": 0,
+              "time": 1413600071,
+              "avatar": "http://pic1.zhimg.com/c41f035ab_im.jpg"
+          },
+          ...
+      ]
+  }
+</code></pre>
+                </li>
+                <li>
+                    <p>格式与前同，恕不再赘述</p>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-9-主题日报列表查看" class="anchor"
+                   href="#9-%E4%B8%BB%E9%A2%98%E6%97%A5%E6%8A%A5%E5%88%97%E8%A1%A8%E6%9F%A5%E7%9C%8B"
+                   aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>9. 主题日报列表查看
+            </h3>
+            <ul>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/4/themes</code></p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      "limit": 1000,
+      "subscribed": [ ],
+      "others": [
+          {
+              "color": 8307764,
+              "thumbnail": "http://pic4.zhimg.com/2c38a96e84b5cc8331a901920a87ea71.jpg",
+              "description": "内容由知乎用户推荐，海纳主题百万，趣味上天入地",
+              "id": 12,
+              "name": "用户推荐日报"
+          },
+          ...
+      ]
+  }
+</code></pre>
+                    <ul>
+                        <li>分析：
+                            <ul>
+                                <li>
+                                    <code>limit</code> : 返回数目之限制（仅为猜测）
+                                </li>
+                                <li>
+                                    <code>subscribed</code> : 已订阅条目
+                                </li>
+                                <li>
+                                    <code>others</code> : 其他条目
+                                    <ul>
+                                        <li>
+                                            <code>color</code> : 颜色，作用未知
+                                        </li>
+                                        <li>
+                                            <code>thumbnail</code> : 供显示的图片地址
+                                        </li>
+                                        <li>
+                                            <code>description</code> : 主题日报的介绍
+                                        </li>
+                                        <li>
+                                            <code>id</code> : 该主题日报的编号
+                                        </li>
+                                        <li>
+                                            <code>name</code> : 供显示的主题日报名称
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-10-主题日报内容查看" class="anchor"
+                   href="#10-%E4%B8%BB%E9%A2%98%E6%97%A5%E6%8A%A5%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B"
+                   aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>10. 主题日报内容查看
+            </h3>
+            <ul>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/4/theme/11</code></p>
+                </li>
+                <li>
+                    <p>使用在 <code>主题日报列表查看</code> 中获得需要查看的主题日报的 <code>id</code>，拼接在 <code>http://news-at.zhihu.com/api/4/theme/</code>
+                        后，得到对应主题日报 JSON 格式的内容</p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      stories: [
+          {
+              images: [
+                  "http://pic1.zhimg.com/84dadf360399e0de406c133153fc4ab8_t.jpg"
+              ],
+              type: 0,
+              id: 4239728,
+              title: "前苏联监狱纹身百科图鉴"
+          },
+          ...
+      ],
+      description: "为你发现最有趣的新鲜事，建议在 WiFi 下查看",
+      background: "http://pic1.zhimg.com/a5128188ed788005ad50840a42079c41.jpg",
+      color: 8307764,
+      name: "不许无聊",
+      image: "http://pic3.zhimg.com/da1fcaf6a02d1223d130d5b106e828b9.jpg",
+      editors: [
+          {
+              url: "http://www.zhihu.com/people/wezeit",
+              bio: "微在 Wezeit 主编",
+              id: 70,
+              avatar: "http://pic4.zhimg.com/068311926_m.jpg",
+              name: "益康糯米"
+          },
+          ...
+      ],
+      image_source: ""
+  }
+</code></pre>
+                    <ul>
+                        <li>分析：
+                            <ul>
+                                <li>
+                                    <code>stories</code> : 该主题日报中的文章列表
+                                    <ul>
+                                        <li>
+                                            <code>images</code> : 图像地址（其类型为数组。请留意在代码中处理无该属性与数组长度为 0 的情况）
+                                        </li>
+                                        <li>
+                                            <code>type</code> : 类型，作用未知
+                                        </li>
+                                        <li>
+                                            <code>title</code> : 消息的标题
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <code>description</code> : 该主题日报的介绍
+                                </li>
+                                <li>
+                                    <code>background</code> : 该主题日报的背景图片（大图）
+                                </li>
+                                <li>
+                                    <code>color</code> : 颜色，作用未知
+                                </li>
+                                <li>
+                                    <code>name</code> : 该主题日报的名称
+                                </li>
+                                <li>
+                                    <code>image</code> : 背景图片的小图版本
+                                </li>
+                                <li>
+                                    <code>editors</code> : 该主题日报的编辑（『用户推荐日报』中此项的指是一个空数组，在 App
+                                    中的主编栏显示为『许多人』，点击后访问该主题日报的介绍页面，请留意）
+                                    <ul>
+                                        <li>
+                                            <code>url</code> : 主编的知乎用户主页
+                                        </li>
+                                        <li>
+                                            <code>bio</code> : 主编的个人简介
+                                        </li>
+                                        <li>
+                                            <code>id</code> : 数据库中的唯一表示符
+                                        </li>
+                                        <li>
+                                            <code>avatar</code> : 主编的头像
+                                        </li>
+                                        <li>
+                                            <code>name</code> : 主编的姓名
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <code>image_source</code> : 图像的版权信息
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-11-热门消息" class="anchor" href="#11-%E7%83%AD%E9%97%A8%E6%B6%88%E6%81%AF"
+                   aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>11. 热门消息
+            </h3>
+            <ul>
+                <li>
+                    <p><strong>请注意！</strong> 此 API 仍可访问，但是其内容未出现在最新的『知乎日报』 App 中。</p>
+                </li>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/3/news/hot</code></p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      recent: [
+          {
+              news_id: 3748552,
+              url: "http://daily.zhihu.com/api/2/news/3748552",
+              thumbnail: "http://p3.zhimg.com/67/6a/676a8337efec71a100eea6130482091b.jpg",
+              title: "长得漂亮能力出众性格单纯的姑娘为什么会没有男朋友？"
+          },
+      ...
+      ]
+  }
+</code></pre>
+                </li>
+                <li>
+                    <p>大体同前面介绍的 API 类似，唯一需要注意的是：欲获得图片地址，不再使用 <code>image</code> 而是 <code>thumbnail</code> 属性</p>
+                </li>
+                <li>
+                    <p><code>url</code> 属性可直接使用。请注意，<code>url</code> 中的 <code>api</code> 属性为 <strong>2</strong>，是较老版本。
+                    </p>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-12-软件推广" class="anchor" href="#12-%E8%BD%AF%E4%BB%B6%E6%8E%A8%E5%B9%BF"
+                   aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>12. 软件推广
+            </h3>
+            <ul>
+                <li>
+                    <strong>请注意！</strong> 此 API 已无法访问，但是其内容曾出现于『知乎日报』 App 中。
+                </li>
+                <li>Android: <code>http://news-at.zhihu.com/api/3/promotion/android</code>
+                </li>
+                <li>iOS: <code>http://news-at.zhihu.com/api/3/promotion/ios</code>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-13-栏目总览" class="anchor" href="#13-%E6%A0%8F%E7%9B%AE%E6%80%BB%E8%A7%88"
+                   aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>13. 栏目总览
+            </h3>
+            <ul>
+                <li>
+                    <p><strong>请注意！</strong> 此 API 仍可访问，但是其内容未出现在最新的『知乎日报』 App 中。</p>
+                </li>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/3/sections</code></p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      data: [
+          {
+              id: 1,
+              thumbnail: "http://p2.zhimg.com/10/b8/10b8193dd6a3404d31b2c50e1e232c87.jpg",
+              name: "深夜食堂",
+              description: "睡前宵夜，用别人的故事下酒"
+          },
+      ...
+      ]
+  }
+</code></pre>
+                </li>
+                <li>
+                    <p>同样，注意使用 <code>thumbnail</code> 获取图像的地址</p>
+                </li>
+            </ul>
+            <h3>
+                <a id="user-content-14-栏目具体消息查看" class="anchor"
+                   href="#14-%E6%A0%8F%E7%9B%AE%E5%85%B7%E4%BD%93%E6%B6%88%E6%81%AF%E6%9F%A5%E7%9C%8B"
+                   aria-hidden="true">
+                    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                         aria-hidden="true">
+                        <path fill-rule="evenodd"
+                              d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                </a>14. 栏目具体消息查看
+            </h3>
+            <ul>
+                <li>
+                    <p><strong>请注意！</strong> 此 API 仍可访问，但是其内容未出现在最新的『知乎日报』 App 中。</p>
+                </li>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/3/section/1</code></p>
+                </li>
+                <li>
+                    <p>URL 最后的数字见『栏目总览』中相应栏目的 <code>id</code> 属性</p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      news: [
+          {
+              date: "20140522",
+              display_date: "5 月 22 日"
+          },
+      ...
+      ],
+      name: "深夜食堂",
+      timestamp: 1398780001
+  }
+</code></pre>
+                </li>
+                <li>
+                    <p>往前：<code>http://news-at.zhihu.com/api/3/section/1/before/1398780001</code></p>
+                    <ul>
+                        <li>在 URL 最后加上一个时间戳，时间戳详见 JSON 数据末端的 <code>timestamp</code> 属性</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>###15. 查看新闻的推荐者</p>
+            <ul>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/4/story/#{id}/recommenders</code></p>
+                </li>
+                <li>
+                    <p>将新闻id填入到#{id}的位置， 如 <code>http://news-at.zhihu.com/api/4/story/7101963/recommenders</code></p>
+                </li>
+                <li>
+                    <p>响应实例</p>
+                    <pre><code>  {
+      "items": [],
+  	"editors": [{
+  		"bio": "树上的女爵",
+  		"title": "主编",
+  		"id": 79,
+  		"avatar": "http:\/\/pic1.zhimg.com\/0a6456810_m.jpg",
+  		"name": "刘柯"
+  	}],
+  	"item_count": 1
+  }
+</code></pre>
+                </li>
+            </ul>
+            <p>###16. 获取某个专栏之前的新闻</p>
+            <ul>
+                <li>
+                    <p>URL: <code>http://news-at.zhihu.com/api/4/theme/#{theme id}/before/#{id}</code></p>
+                </li>
+                <li>
+                    <p>将专栏id填入到 #{theme id}, 将新闻id填入到#{id}，如 <code>http://news-at.zhihu.com/api/4/theme/11/before/7119483</code>
+                    </p>
+                </li>
+                <li>
+                    <p>注：新闻id要是属于该专栏，否则，返回结果为空</p>
+                </li>
+                <li>
+                    <p>响应实例：</p>
+                    <pre><code>  {
+      "stories": [
+          {
+              "images": [
+                  "http://pic2.zhimg.com/27f3d8f4c1e0000d04ee446a2f020cf1_t.jpg"
+               ],
+              "type": 2,
+              "id": 7119477,
+              "title": "9 张本周最热节操图，诺一就是人生赢家本人"
+          }, ...
+      ]
+  }
+</code></pre>
+                </li>
+            </ul>
+            <p>###17. 查看editor的主页</p>
+            <ul>
+                <li>iOS: <code>http://news-at.zhihu.com/api/4/editor/#{id}/profile-page/ios</code>
+                </li>
+                <li>Android: <code>http://news-at.zhihu.com/api/4/editor/#{id}/profile-page/android</code>
+                </li>
+                <li>如 <a href="http://news-at.zhihu.com/api/4/editor/79/profile-page/ios" rel="nofollow">http://news-at.zhihu.com/api/4/editor/79/profile-page/ios</a>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
